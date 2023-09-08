@@ -1,4 +1,3 @@
-```mermaid
 sequenceDiagram
     Browser->>+Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     Server-->>-Browser: HTML Document
@@ -10,4 +9,3 @@ sequenceDiagram
     Note right of Browser: The browser starts executing the JavaScript code that fetches the JSON from the server
     Browser->>+Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     Server-->>Browser: [{ "content": "Any Data", "date": "2023-09-08" }, ... ]
-```
