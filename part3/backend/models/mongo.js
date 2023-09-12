@@ -37,7 +37,7 @@
 //   });
 // }
 
-const mongoose = require("mongoose");
+const mongoose = require("./mongoconnection");
 require("dotenv").config();
 
 const url = process.env.MONGODB_URI;
