@@ -68,12 +68,12 @@ app.put("/api/persons", (request, response) => {
   person.update.then({ _id: request.params.id }, person, (err, board) => {
     if (err) {
       res.json({
-        newBoard: newBoard,
+        person: person,
         success: false,
         msg: "Failed to update board",
       });
     } else {
-      res.json({ newBoard: newBoard, success: true, msg: "Board added" });
+      res.json({ person: person, success: true, msg: "Board added" });
     }
   });
 });
