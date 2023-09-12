@@ -58,7 +58,7 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
-app.put("/api/persons", (request, response) => {
+app.put("/api/persons/:id", (request, response) => {
   const body = request.body;
   const person = new Person({
     _id: request.params.id,
