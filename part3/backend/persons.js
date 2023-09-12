@@ -1,49 +1,28 @@
 const express = require("express");
 const app = express();
-const Phone = require("./models/mongo");
+const Person = require("./models/mongo");
 var morgan = require("morgan");
 const cors = require("cors");
-let persons = [
-  {
-    id: 1,
-    name: "Rahul Hellas",
-    number: "040-123456",
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+
 app.use(express.static("dist"));
 app.use(cors());
 app.use(morgan("tiny"));
 app.get("/api/persons", (request, response) => {
-  Phone.find({}).then((person) => {
+  Person.find({}).then((person) => {
     response.json(person);
   });
 });
 
 app.get("/info", (request, response) => {
   const currentTime = new Date();
-  const info = `<p>Phone has info for ${Phone.length} people</p>
+  const info = `<p>Person has info for ${Person.length} people</p>
     <p>${currentTime.toString()}</p>
   `;
   response.send(info);
 });
 
 app.get("/api/persons/:id", (request, response) => {
-  Phone.findById(request.params.id).then((person) => {
+  Person.findById(request.params.id).then((person) => {
     response.json(person);
   });
   // if (!person) {
@@ -69,7 +48,7 @@ app.post("/api/persons", (request, response) => {
   // } else if (isExist) {
   //   return response.status(400).json({ error: "Name already exists" });
   // }
-  const person = new Phone({
+  const person = new Person({
     name: body.name,
     number: body.number,
     id: generateRandom(), //generate a random id
