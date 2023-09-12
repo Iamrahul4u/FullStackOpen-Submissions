@@ -61,11 +61,11 @@ app.post("/api/persons", (request, response) => {
 app.put("/api/persons", (request, response) => {
   const body = request.body;
   const person = new Person({
-    id: request.params.id,
+    _id: request.params.id,
     name: body.name,
     number: body.number,
   });
-  person.update.then({ id }, person);
+  person.update.then({ _id }, person);
 });
 const PORT = process.env.VITE_PORT || 3001;
 app.listen(PORT, () => {
