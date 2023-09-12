@@ -65,7 +65,17 @@ app.put("/api/persons", (request, response) => {
     name: body.name,
     number: body.number,
   });
-  person.update.then({ _id: request.params.id }, person);
+  person.update.then({ _id: request.params.id }, person, (err, board) => {
+    if (err) {
+      res.json({
+        newBoard: newBoard,
+        success: false,
+        msg: "Failed to update board",
+      });
+    } else {
+      res.json({ newBoard: newBoard, success: true, msg: "Board added" });
+    }
+  });
 });
 const PORT = process.env.VITE_PORT || 3001;
 app.listen(PORT, () => {
