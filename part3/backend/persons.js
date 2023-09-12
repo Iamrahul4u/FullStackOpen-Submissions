@@ -65,7 +65,7 @@ app.put("/api/persons", (request, response) => {
     name: body.name,
     number: body.number,
   });
-  person.update.then({ _id }, person);
+  person.update.then({ _id: request.params.id }, person);
 });
 const PORT = process.env.VITE_PORT || 3001;
 app.listen(PORT, () => {
