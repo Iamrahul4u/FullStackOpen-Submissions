@@ -37,12 +37,12 @@
 //   });
 // }
 
-const mongoose = require("./mongoconnection");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 const url = process.env.MONGODB_URI;
 mongoose.set("strictQuery", false);
-mongoose
+await mongoose
   .connect(url)
   .then((result) => {
     console.log("connected to MongoDB");
