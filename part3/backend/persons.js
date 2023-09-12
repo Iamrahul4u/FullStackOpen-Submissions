@@ -61,11 +61,11 @@ app.post("/api/persons", (request, response) => {
 app.put("/api/persons/:id", (request, response) => {
   const body = request.body;
   const person = new Person({
-    _id: request.params.id,
+    id: request.params.id,
     name: body.name,
     number: body.number,
   });
-  person.update.then({ _id: request.params.id }, person, (err, board) => {
+  person.update.then({ id: request.params.id }, person, (err, person) => {
     if (err) {
       res.json({
         person: person,
