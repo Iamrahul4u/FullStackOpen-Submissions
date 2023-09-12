@@ -51,7 +51,7 @@ app.post("/api/persons", (request, response) => {
   const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateRandom(), //generate a random id
+    // id: generateRandom(), //generate a random id
   });
   person.save().then((savedPerson) => {
     response.json(savedPerson);
