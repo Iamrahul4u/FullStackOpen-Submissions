@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://backend-part-3.onrender.com/api/persons";
+const BASE_URL = "/api/persons";
 const getPerson = () => {
   return axios.get(`${BASE_URL}`).then((response) => response.data);
 };

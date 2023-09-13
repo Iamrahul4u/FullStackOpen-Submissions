@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node persons.js",
-    "dev": "nodemon persons.js"
+    "dev": "nodemon persons.js",
+    "lint": "eslint ."
   },
   "author": "Rahul Gupta",
   "license": "ISC",
@@ -16,5 +17,8 @@
     "express": "^4.18.2",
     "mongoose": "^7.5.1",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.49.0"
   }
 }

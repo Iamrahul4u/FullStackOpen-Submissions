@@ -44,11 +44,23 @@ const App = () => {
         number: phoneNum,
       };
       // if new person then simply add it to the array
-      addPerson(newnumber).then((res) => {
-        setPersons([...persons, res]);
-      });
+      addPerson(newnumber)
+        .then((res) => {
+          setPersons([...persons, res]);
+          setError({
+            ...errorMessage,
+            error: `Added ${newName}`,
+            success: true,
+          });
+        })
+        .catch((error) =>
+          setError({
+            ...errorMessage,
+            error: error.response.data.error,
+            success: false,
+          })
+        );
     }
-    setError({ ...errorMessage, error: `Added ${newName}`, success: true });
     setTimeout(() => {
       setError(initialError);
     }, 5000);

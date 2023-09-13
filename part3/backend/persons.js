@@ -15,7 +15,7 @@ app.get("/api/persons", (request, response) => {
 
 app.get("/info", (request, response) => {
   const currentTime = new Date();
-  const personlength = Person.find({}).then((person) => {
+  Person.find({}).then((person) => {
     const info = `<p>Person has info for ${person.length} people</p>
     <p>${currentTime.toString()}</p>
     `;
@@ -35,9 +35,9 @@ app.get("/api/persons/:id", (request, response, next) => {
     .catch((error) => next(error));
 });
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete("/api/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then((person) => {
+    .then(() => {
       response.status(204).end();
     })
     .catch((error) => next(error));
