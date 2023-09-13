@@ -15,7 +15,10 @@ app.get("/api/persons", (request, response) => {
 
 app.get("/info", (request, response) => {
   const currentTime = new Date();
-  const info = `<p>Person has info for ${Person.length} people</p>
+  const length = Person.find({}).then((person) => {
+    person.length;
+  });
+  const info = `<p>Person has info for ${length} people</p>
     <p>${currentTime.toString()}</p>
   `;
   response.send(info);
