@@ -15,13 +15,12 @@ app.get("/api/persons", (request, response) => {
 
 app.get("/info", (request, response) => {
   const currentTime = new Date();
-  const length = Person.find({}).then((person) => {
-    person.length;
-  });
-  const info = `<p>Person has info for ${length} people</p>
+  const personlength = Person.find({}).then((person) => {
+    const info = `<p>Person has info for ${person.length} people</p>
     <p>${currentTime.toString()}</p>
-  `;
-  response.send(info);
+    `;
+    response.send(info);
+  });
 });
 
 app.get("/api/persons/:id", (request, response) => {
