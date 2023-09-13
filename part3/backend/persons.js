@@ -30,7 +30,13 @@ app.get("/api/persons/:id", (request, response) => {
   // } else response.json(person);
 });
 
-app.delete("/api/persons/:id", (request, response) => {});
+app.delete("/api/persons/:id", (request, response) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
+});
 
 const generateRandom = () => {
   const id = Math.floor(Math.random() * 10000000000000000000000);
@@ -51,7 +57,7 @@ app.post("/api/persons", (request, response) => {
   const person = new Person({
     name: body.name,
     number: body.number,
-    // id: generateRandom(), //generate a random id
+    id: generateRandom(), //generate a random id
   });
   person.save().then((savedPerson) => {
     response.json(savedPerson);

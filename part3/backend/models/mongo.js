@@ -55,14 +55,7 @@ mongoose
 const phoneSchema = new mongoose.Schema({
   name: String,
   number: Number,
-});
-
-phoneSchema.set("toJSON", {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id;
-    delete returnedObject._id;
-    delete returnedObject.__v;
-  },
+  id: Number,
 });
 
 module.exports = mongoose.model("Person", phoneSchema);
