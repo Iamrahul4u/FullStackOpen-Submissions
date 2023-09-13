@@ -57,7 +57,7 @@ app.post("/api/persons", (request, response) => {
   const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateRandom(), //generate a random id
+    // id: generateRandom(), //generate a random id
   });
   person.save().then((savedPerson) => {
     response.json(savedPerson);
@@ -71,17 +71,11 @@ app.put("/api/persons/:id", (request, response) => {
     name: body.name,
     number: body.number,
   });
-  person.update.then({ id: request.params.id }, person, (err, person) => {
-    if (err) {
-      res.json({
-        person: person,
-        success: false,
-        msg: "Failed to update board",
-      });
-    } else {
-      res.json({ person: person, success: true, msg: "Board added" });
-    }
-  });
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then((updatedNote) => {
+      response.json(updatedNote);
+    })
+    .catch((error) => console.log(error.message));
 });
 const PORT = process.env.VITE_PORT || 3001;
 app.listen(PORT, () => {
