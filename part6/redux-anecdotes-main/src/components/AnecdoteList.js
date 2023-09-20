@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { sortByVotes, votes } from "../reducers/anecdoteReducer";
-import { OffNotification, OnNotification } from "../reducers/Notification";
+import { UpdateVotes, sortByVotes, votes } from "../reducers/anecdoteReducer";
+import {
+  OffNotification,
+  OnNotification,
+  setNotification,
+} from "../reducers/Notification";
 import { useRef } from "react";
 
 function AnecdoteList() {
@@ -18,15 +22,8 @@ function AnecdoteList() {
   const notificationTimeoutRef = useRef(null);
 
   const handleVote = (anecdote) => {
-    dispatch(votes(anecdote.id));
-    dispatch(sortByVotes());
-    dispatch(OnNotification(`you voted '${anecdote.content}'`));
-    if (notificationTimeoutRef.current) {
-      clearTimeout(notificationTimeoutRef.current);
-    }
-    notificationTimeoutRef.current = setTimeout(() => {
-      dispatch(OffNotification());
-    }, 5000);
+    dispatch(UpdateVotes(anecdote));
+    dispatch(setNotification(`you voted '${anecdote.content}'`, 1));
   };
   return (
     <div>

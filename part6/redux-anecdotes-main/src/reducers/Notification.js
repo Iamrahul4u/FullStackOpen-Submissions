@@ -22,3 +22,19 @@ const notificationreducer = createSlice({
 });
 export const { OnNotification, OffNotification } = notificationreducer.actions;
 export default notificationreducer.reducer;
+
+export const setNotification = (data, timeout) => {
+  return async (dispatch) => {
+    dispatch(OnNotification(data));
+    setTimeout(() => {
+      dispatch(OffNotification());
+    }, [timeout * 1000]);
+  };
+};
+
+// if (notificationTimeoutRef.current) {
+//   clearTimeout(notificationTimeoutRef.current);
+// }
+// notificationTimeoutRef.current = setTimeout(() => {
+//   dispatch(OffNotification());
+// }, 5000);

@@ -1,20 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addAnecdote } from "../reducers/anecdoteReducer";
-import { OffNotification, OnNotification } from "../reducers/Notification";
+import { addAnecdotethunk } from "../reducers/anecdoteReducer";
+import { setNotification } from "../reducers/Notification";
 
 function AnecdoteForm() {
   const anecdotes = useSelector(({ anecdotes }) => anecdotes);
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     let query = e.target.input.value;
-    dispatch(addAnecdote(query));
-    dispatch(OnNotification(`Created new anecdote '${query}'`));
+    dispatch(addAnecdotethunk(query));
+    dispatch(setNotification(`you created '${query}'`, 10));
     e.target.input.value = "";
-    setTimeout(() => {
-      dispatch(OffNotification());
-    }, [5000]);
   };
   return (
     <div>
