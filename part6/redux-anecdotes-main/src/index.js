@@ -5,16 +5,19 @@ import { Provider } from "react-redux";
 import App from "./App";
 import reducer from "./reducers/anecdoteReducer";
 import filterReducer from "./reducers/filterReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import Notification from "./reducers/Notification";
 
-const combreducer = combineReducers({
-  anecdotes: reducer,
-  filters: filterReducer,
+const combreducer = configureStore({
+  reducer: {
+    anecdotes: reducer,
+    filters: filterReducer,
+    notification: Notification,
+  },
 });
 
-const store = createStore(combreducer);
-
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
+  <Provider store={combreducer}>
     <App />
   </Provider>
 );
