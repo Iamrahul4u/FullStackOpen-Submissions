@@ -1,0 +1,28 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "name"
+    },
+    {
+      "id": 59173,
+      "content": "hello"
+    },
+    {
+      "id": 19615,
+      "content": "hi"
+    }
+  ],
+  "persons": [
+    {
+      "id": 2,
+      "name": "note1",
+      "number": 123456
+    },
+    {
+      "id": 23166,
+      "name": "how are you",
+      "number": "bhjn"
+    }
+  ]
+}
