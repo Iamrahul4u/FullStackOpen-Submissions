@@ -132,6 +132,8 @@ const resolvers = {
           (book) =>
             book.author === args.author && book.genres.includes(args.genre)
         );
+      } else {
+        return books;
       }
     },
     allAuthors: () => {
