@@ -20,9 +20,71 @@ mongoose
   .catch((error) => {
     console.log("error", error.message);
   });
-const randomGenerator = () => {
-  return Math.floor(Math.random() * 1000000000);
-};
+let authors = [
+  {
+    name: "Robert Martin",
+    born: 1952,
+  },
+  {
+    name: "Martin Fowler",
+    born: 1963,
+  },
+  {
+    name: "Fyodor Dostoevsky",
+    born: 1821,
+  },
+  {
+    name: "Joshua Kerievsky",
+  },
+  {
+    name: "Sandi Metz",
+  },
+];
+
+let books = [
+  {
+    title: "Clean Code",
+    published: 2008,
+    author: "Robert Martin",
+    genres: ["refactoring"],
+  },
+  {
+    title: "Agile software development",
+    published: 2002,
+    author: "Robert Martin",
+    genres: ["agile", "patterns", "design"],
+  },
+  {
+    title: "Refactoring, edition 2",
+    published: 2018,
+    author: "Martin Fowler",
+    genres: ["refactoring"],
+  },
+  {
+    title: "Refactoring to patterns",
+    published: 2008,
+    author: "Joshua Kerievsky",
+    genres: ["refactoring", "patterns"],
+  },
+  {
+    title: "Practical Object-Oriented Design, An Agile Primer Using Ruby",
+    published: 2012,
+    author: "Sandi Metz",
+    genres: ["refactoring", "design"],
+  },
+  {
+    title: "Crime and punishment",
+    published: 1866,
+    author: "Fyodor Dostoevsky",
+    genres: ["classic", "crime"],
+  },
+  {
+    title: "The Demon ",
+    published: 1872,
+    author: "Fyodor Dostoevsky",
+    genres: ["classic", "revolution"],
+  },
+];
 
 const typeDefs = `
   type Book {
@@ -36,7 +98,7 @@ const typeDefs = `
     name: String!
     id:ID!
     born: Int
-    bookCount:Int!
+    bookCount:Int
   }
   type User {
     username: String!
@@ -50,9 +112,11 @@ const typeDefs = `
   type Query {
     bookCount: Int!
     authorCount: Int!
+    getGenres:[String!]!
     allBooks(genre:String,author:String):[Book!]!
     allAuthors:[Author!]!
-    me: User
+    me: User,
+    recommend:[Book!]!
 
     }
   type Mutation{
@@ -69,29 +133,61 @@ const typeDefs = `
   }
 `;
 
+//function to update the db with the arrays authors and books
+// async function insertBooksAndAuthors() {
+//   await Author.insertMany(authors);
+//   books.map(async (book) => {
+//     const author = await Author.findOne({ name: book.author });
+//     if (!author) {
+//       console.log("Not found");
+//     }
+//     const newBook = new Book({
+//       title: book.title,
+//       published: book.published,
+//       author: author.id,
+//       genres: book.genres,
+//     });
+//     await newBook.save();
+//     return book;
+//   });
+// }
+// // insertBooksAndAuthors();
 const resolvers = {
   Query: {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: async () => Author.collection.countDocuments(),
+    getGenres: async () => {
+      const genres = await Book.distinct("genres");
+      return genres;
+    },
     allBooks: async (root, args) => {
+      const books = await Book.find({}).populate("author");
       if (args.genre) {
-        return (await Book.find({})).filter((book) =>
-          book.genres.includes(args.genre)
-        );
+        return books.filter((book) => book.genres.includes(args.genre));
       } else {
         return books;
       }
     },
-    allAuthors: () => {
-      return authors.map((author) => {
-        const bookCount = books.filter(
-          (book) => book.author === author.name
-        ).length;
+    allAuthors: async () => {
+      const authors = await Author.find({});
+      const books = await Book.find({}).populate("author");
+      const authorsCount = authors.map((author) => {
+        const bookCount = books.filter((book) => {
+          return book.author.name === author.name;
+        }).length;
+
         return {
-          ...author,
+          ...author.toObject(),
           bookCount,
         };
       });
+      return authorsCount;
+    },
+    recommend: async (root, args, context) => {
+      const books = await Book.find({}).populate("author");
+      return books.filter((book) =>
+        book.genres.includes(context.currentUser.favoriteGenre)
+      );
     },
     me: (root, args, context) => {
       console.log(context.currentUser);
@@ -193,6 +289,7 @@ startStandaloneServer(server, {
         process.env.JWT_SECRET
       );
       const currentUser = await User.findById(decodedToken.id);
+      console.log(currentUser);
       return { currentUser };
     }
   },

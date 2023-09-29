@@ -4,7 +4,6 @@ import EditAuthor from "./EditAuthor";
 
 const Authors = () => {
   const result = useQuery(ALL_AUTHORS);
-
   if (result.loading) {
     return <div>Loading...</div>;
   }
