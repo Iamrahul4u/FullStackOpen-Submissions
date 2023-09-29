@@ -7,7 +7,6 @@ const Recommendation = () => {
   if (favGenreQuery.loading) {
     return <p>Loading....</p>;
   }
-  console.log(favGenreQuery.data.recommend);
   const books = favGenreQuery.data.recommend;
   return (
     <div>

@@ -79,6 +79,19 @@ const RECOMMEND = gql`
     }
   }
 `;
+const BOOK_ADDED = gql`
+  subscription {
+    bookOnAdded {
+      title
+      author {
+        name
+      }
+      published
+      id
+    }
+  }
+`;
+
 export {
   ALL_AUTHORS,
   ALL_BOOKS,
@@ -87,5 +100,6 @@ export {
   LOGIN_MUTATION,
   GET_GENRES,
   ME,
+  BOOK_ADDED,
   RECOMMEND,
 };
